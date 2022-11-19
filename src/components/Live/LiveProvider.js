@@ -12,6 +12,7 @@ function LiveProvider({
   theme,
   disabled,
   scope,
+  transformOptions,
   transformCode,
   noInline = false,
 }) {
@@ -43,6 +44,7 @@ function LiveProvider({
           const input = {
             code: transformedCode,
             scope,
+            opts: transformOptions,
           };
 
           if (noInline) {
@@ -87,6 +89,7 @@ function LiveProvider({
 }
 
 LiveProvider.propTypes = {
+  Context: PropTypes.any,
   children: PropTypes.node,
   code: PropTypes.string,
   disabled: PropTypes.bool,
@@ -95,6 +98,7 @@ LiveProvider.propTypes = {
   scope: PropTypes.object,
   theme: PropTypes.object,
   transformCode: PropTypes.func,
+  transformOptions: PropTypes.object,
 };
 
 LiveProvider.defaultProps = {

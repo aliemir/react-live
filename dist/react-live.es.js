@@ -406,9 +406,9 @@ var theme = {
   }]
 };
 
-function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys$3(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread$3(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$3(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$3(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 var CodeEditor = function CodeEditor(props) {
   var editorRef = useRef(null);
@@ -448,7 +448,7 @@ var CodeEditor = function CodeEditor(props) {
         _style = _ref.style;
     return /*#__PURE__*/React.createElement("pre", {
       className: _className,
-      style: _objectSpread$2({
+      style: _objectSpread$3({
         margin: 0,
         outline: "none",
         padding: 10,
@@ -485,15 +485,20 @@ var Editor = CodeEditor;
 var LiveContext = /*#__PURE__*/createContext({});
 var LiveContext$1 = LiveContext;
 
+function ownKeys$2(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread$2(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys$2(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys$2(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 /** @type {import('sucrase').Options} */
 
 var opts = {
-  transforms: ["typescript", "jsx", "imports"],
-  jsxRuntime: "automatic",
-  production: true
+  transforms: ["typescript", "jsx", "imports"]
 };
-var transform = (function (code) {
-  return transform$1(code, opts).code;
+var transform = (function (code, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  return transform$1(code, _objectSpread$2(_objectSpread$2({}, opts), options)).code;
 });
 
 function _setPrototypeOf(o, p) {
@@ -582,11 +587,13 @@ var generateElement = function generateElement(_ref, errorCallback) {
   var _ref$code = _ref.code,
       code = _ref$code === void 0 ? "" : _ref$code,
       _ref$scope = _ref.scope,
-      scope = _ref$scope === void 0 ? {} : _ref$scope;
+      scope = _ref$scope === void 0 ? {} : _ref$scope,
+      _ref$opts = _ref.opts,
+      opts = _ref$opts === void 0 ? {} : _ref$opts;
   // NOTE: Remove trailing semicolon to get an actual expression.
   var codeTrimmed = code.trim().replace(/;$/, ""); // NOTE: Workaround for classes and arrow functions.
 
-  var transformed = transform("return (" + codeTrimmed + ")").trim();
+  var transformed = transform("return (" + codeTrimmed + ")", opts).trim();
   return errorBoundary$1(evalCode$1(transformed, _objectSpread$1({
     React: React
   }, scope)), errorCallback);
@@ -596,7 +603,9 @@ var renderElementAsync = function renderElementAsync(_ref2, resultCallback, erro
   var _ref2$code = _ref2.code,
       code = _ref2$code === void 0 ? "" : _ref2$code,
       _ref2$scope = _ref2.scope,
-      scope = _ref2$scope === void 0 ? {} : _ref2$scope;
+      scope = _ref2$scope === void 0 ? {} : _ref2$scope,
+      _ref2$opts = _ref2.opts,
+      opts = _ref2$opts === void 0 ? {} : _ref2$opts;
 
   var render = function render(element) {
     if (typeof element === "undefined") {
@@ -610,7 +619,7 @@ var renderElementAsync = function renderElementAsync(_ref2, resultCallback, erro
     return errorCallback(new SyntaxError("No-Inline evaluations must call `render`."));
   }
 
-  evalCode$1(transform(code), _objectSpread$1(_objectSpread$1({
+  evalCode$1(transform(code, opts), _objectSpread$1(_objectSpread$1({
     React: React
   }, scope), {}, {
     render: render
@@ -630,6 +639,7 @@ function LiveProvider(_ref) {
       theme = _ref.theme,
       disabled = _ref.disabled,
       scope = _ref.scope,
+      transformOptions = _ref.transformOptions,
       transformCode = _ref.transformCode,
       _ref$noInline = _ref.noInline,
       noInline = _ref$noInline === void 0 ? false : _ref$noInline;
@@ -668,7 +678,8 @@ function LiveProvider(_ref) {
 
         var input = {
           code: transformedCode,
-          scope: scope
+          scope: scope,
+          opts: transformOptions
         };
 
         if (noInline) {

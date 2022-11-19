@@ -1,4 +1,5 @@
 import { ComponentClass, HTMLProps, ComponentType, Context } from "react";
+import type { Options } from "sucrase";
 import { PrismTheme, Language } from "prism-react-renderer";
 
 // Helper types
@@ -11,6 +12,7 @@ type PreProps = HTMLProps<HTMLPreElement>;
 // LiveProvider
 export type LiveProviderProps = Omit<DivProps, "scope"> & {
   Context?: Context<ContextProps>;
+  transformOptions?: Options;
   scope?: { [key: string]: any };
   code?: string;
   noInline?: boolean;
