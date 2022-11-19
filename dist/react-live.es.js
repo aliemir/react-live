@@ -485,8 +485,12 @@ var Editor = CodeEditor;
 var LiveContext = /*#__PURE__*/createContext({});
 var LiveContext$1 = LiveContext;
 
+/** @type {import('sucrase').Options} */
+
 var opts = {
-  transforms: ["typescript", "jsx", "imports"]
+  transforms: ["typescript", "jsx", "imports"],
+  jsxRuntime: "automatic",
+  production: true
 };
 var transform = (function (code) {
   return transform$1(code, opts).code;
