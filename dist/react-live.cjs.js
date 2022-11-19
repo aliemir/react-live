@@ -849,4 +849,5 @@ exports.LivePreview = LivePreview;
 exports.LiveProvider = LiveProvider;
 exports.generateElement = generateElement;
 exports.renderElementAsync = renderElementAsync;
+exports.theme = theme;
 exports.withLive = withLive;

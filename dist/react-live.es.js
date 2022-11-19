@@ -832,4 +832,4 @@ function withLive(WrappedComponent, Context) {
   return WithLive;
 }
 
-export { Editor, LiveContext$1 as LiveContext, LiveEditor, LiveError, LivePreview, LiveProvider, generateElement, renderElementAsync, withLive };
+export { Editor, LiveContext$1 as LiveContext, LiveEditor, LiveError, LivePreview, LiveProvider, generateElement, renderElementAsync, theme, withLive };

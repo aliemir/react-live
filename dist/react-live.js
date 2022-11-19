@@ -847,6 +847,7 @@
   exports.LiveProvider = LiveProvider;
   exports.generateElement = generateElement;
   exports.renderElementAsync = renderElementAsync;
+  exports.theme = theme;
   exports.withLive = withLive;
 
   Object.defineProperty(exports, '__esModule', { value: true });
