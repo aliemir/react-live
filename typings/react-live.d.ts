@@ -20,6 +20,8 @@ export type LiveProviderProps = Omit<DivProps, "scope"> & {
   theme?: PrismTheme;
 };
 
+export const theme: PrismTheme;
+
 export const LiveProvider: ComponentClass<LiveProviderProps>;
 
 // Editor
