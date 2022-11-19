@@ -618,7 +618,9 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function LiveProvider(_ref) {
-  var children = _ref.children,
+  var _ref$Context = _ref.Context,
+      Context = _ref$Context === void 0 ? LiveContext$1 : _ref$Context,
+      children = _ref.children,
       code = _ref.code,
       language = _ref.language,
       theme = _ref.theme,
@@ -696,7 +698,7 @@ function LiveProvider(_ref) {
     transpileAsync(newCode)["catch"](onError);
   };
 
-  return /*#__PURE__*/React.createElement(LiveContext$1.Provider, {
+  return /*#__PURE__*/React.createElement(Context.Provider, {
     value: _objectSpread(_objectSpread({}, state), {}, {
       code: code,
       language: language,
@@ -733,30 +735,6 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function LiveEditor(props) {
-  var _useContext = useContext(LiveContext$1),
-      code = _useContext.code,
-      language = _useContext.language,
-      theme = _useContext.theme,
-      disabled = _useContext.disabled,
-      onChange = _useContext.onChange;
-
-  return /*#__PURE__*/React.createElement(Editor, _extends({
-    theme: theme,
-    code: code,
-    language: language,
-    disabled: disabled,
-    onChange: onChange
-  }, props));
-}
-
-function LiveError(props) {
-  var _useContext = useContext(LiveContext$1),
-      error = _useContext.error;
-
-  return error ? /*#__PURE__*/React.createElement("pre", props, error) : null;
-}
-
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -772,13 +750,49 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   return target;
 }
 
-var _excluded = ["Component"];
+var _excluded$2 = ["Context"];
+function LiveEditor(_ref) {
+  var _ref$Context = _ref.Context,
+      Context = _ref$Context === void 0 ? LiveContext$1 : _ref$Context,
+      props = _objectWithoutPropertiesLoose(_ref, _excluded$2);
+
+  var _useContext = useContext(Context),
+      code = _useContext.code,
+      language = _useContext.language,
+      theme = _useContext.theme,
+      disabled = _useContext.disabled,
+      onChange = _useContext.onChange;
+
+  return /*#__PURE__*/React.createElement(Editor, _extends({
+    theme: theme,
+    code: code,
+    language: language,
+    disabled: disabled,
+    onChange: onChange
+  }, props));
+}
+
+var _excluded$1 = ["Context"];
+function LiveError(_ref) {
+  var _ref$Context = _ref.Context,
+      Context = _ref$Context === void 0 ? LiveContext$1 : _ref$Context,
+      props = _objectWithoutPropertiesLoose(_ref, _excluded$1);
+
+  var _useContext = useContext(Context),
+      error = _useContext.error;
+
+  return error ? /*#__PURE__*/React.createElement("pre", props, error) : null;
+}
+
+var _excluded = ["Component", "Context"];
 
 function LivePreview(_ref) {
   var Component = _ref.Component,
+      _ref$Context = _ref.Context,
+      Context = _ref$Context === void 0 ? LiveContext$1 : _ref$Context,
       rest = _objectWithoutPropertiesLoose(_ref, _excluded);
 
-  var _useContext = useContext(LiveContext$1),
+  var _useContext = useContext(Context),
       Element = _useContext.element;
 
   return /*#__PURE__*/React.createElement(Component, rest, Element ? /*#__PURE__*/React.createElement(Element, null) : null);
@@ -788,7 +802,11 @@ LivePreview.defaultProps = {
   Component: "div"
 };
 
-function withLive(WrappedComponent) {
+function withLive(WrappedComponent, Context) {
+  if (Context === void 0) {
+    Context = LiveContext$1;
+  }
+
   var WithLive = /*#__PURE__*/function (_Component) {
     _inheritsLoose(WithLive, _Component);
 
@@ -801,7 +819,7 @@ function withLive(WrappedComponent) {
     _proto.render = function render() {
       var _this = this;
 
-      return /*#__PURE__*/React.createElement(LiveContext$1.Consumer, null, function (live) {
+      return /*#__PURE__*/React.createElement(Context.Consumer, null, function (live) {
         return /*#__PURE__*/React.createElement(WrappedComponent, _extends({
           live: live
         }, _this.props));
