@@ -10,7 +10,7 @@ type PreProps = HTMLProps<HTMLPreElement>;
 
 // LiveProvider
 export type LiveProviderProps = Omit<DivProps, "scope"> & {
-  Context?: typeof LiveContext;
+  Context?: Context<ContextProps>;
   scope?: { [key: string]: any };
   code?: string;
   noInline?: boolean;
@@ -26,7 +26,7 @@ export const LiveProvider: ComponentClass<LiveProviderProps>;
 
 // Editor
 export type EditorProps = Omit<PreProps, "onChange"> & {
-  Context?: typeof LiveContext;
+  Context?: Context<ContextProps>;
   code?: string;
   disabled?: boolean;
   language?: Language;
@@ -51,13 +51,19 @@ export const LiveContext: Context<ContextProps>;
 // LiveEditor
 export type LiveEditorProps = EditorProps;
 
-export const LiveEditor: ComponentClass<LiveEditorProps>;
+export const LiveEditor: ComponentClass<
+  LiveEditorProps & { Context?: Context<ContextProps> }
+>;
 
 // LiveError
-export const LiveError: ComponentClass<DivProps>;
+export const LiveError: ComponentClass<
+  DivProps & { Context?: Context<ContextProps> }
+>;
 
 // LivePreview
-export const LivePreview: ComponentClass<DivProps>;
+export const LivePreview: ComponentClass<
+  DivProps & { Context?: Context<ContextProps> }
+>;
 
 // withLive HOC
 export function withLive<P>(
