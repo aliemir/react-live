@@ -10,6 +10,8 @@ import withLive from "./hoc/withLive";
 
 export * from "./utils/transpile";
 
+export { theme } from "./constants/theme";
+
 export {
   Editor,
   // Main exports:
