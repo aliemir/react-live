@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import LiveContext from "../components/Live/LiveContext";
 
-export default function withLive(WrappedComponent) {
+export default function withLive(WrappedComponent, Context = LiveContext) {
   class WithLive extends Component {
     render() {
       return (
-        <LiveContext.Consumer>
+        <Context.Consumer>
           {(live) => <WrappedComponent live={live} {...this.props} />}
-        </LiveContext.Consumer>
+        </Context.Consumer>
       );
     }
   }

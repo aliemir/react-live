@@ -5,6 +5,7 @@ import LiveContext from "./LiveContext";
 import { generateElement, renderElementAsync } from "../../utils/transpile";
 
 function LiveProvider({
+  Context = LiveContext,
   children,
   code,
   language,
@@ -69,7 +70,7 @@ function LiveProvider({
   };
 
   return (
-    <LiveContext.Provider
+    <Context.Provider
       value={{
         ...state,
         code,
@@ -81,7 +82,7 @@ function LiveProvider({
       }}
     >
       {children}
-    </LiveContext.Provider>
+    </Context.Provider>
   );
 }
 
