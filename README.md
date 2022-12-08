@@ -1,3 +1,15 @@
+
+**INFO**
+
+This is a fork of [react-live](https://github.com/FormidableLabs/react-live) with the following changes:
+
+- Added Typescript support
+- Ability to pass `transformOptions` to Sucrase
+- Ability to pass `Context` prop to use in `LiveProvider`
+
+Above changes are released with name `@aliemir/react-live` on npm with version `4.0.0`.
+
+
 <p align="center"><img src="https://user-images.githubusercontent.com/17658189/63178611-4e90d580-c042-11e9-875f-f2455148b9ae.png" width=250></p>
 <h2 align="center">React Live</h2>
 <p align="center">
