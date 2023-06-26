@@ -1,6 +1,6 @@
 {
   "name": "@aliemir/react-live",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A production-focused playground for live editing React code",
   "private": false,
   "main": "dist/react-live.cjs.js",
@@ -12,7 +12,7 @@
     "storybook": "start-storybook -p 9001",
     "storybook:build": "build-storybook -o .out",
     "prebuild:lib": "rm -rf lib/*",
-    "prebuild": "yarn lint",
+    "prebuild": "npm run lint",
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "test": "jest",
